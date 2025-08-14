@@ -1,4 +1,23 @@
 {
   "name": "taskhub-monorepo",
-  "private": true
+  "private": true,
+  "files": [],
+  "references": [
+    {
+      "path": "apps/api"
+    },
+    {
+      "path": "apps/hono"
+    },
+    {
+      "path": "packages/db"
+    },
+    {
+      "path": "packages/utils"
+    }
+  ],
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "typescript": "^5.9.2"
+  }
 }
