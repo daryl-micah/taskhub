@@ -6,23 +6,25 @@ import { users } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 import { authMiddleware } from "../middleware/auth.js";
-
-type Variables = {
-  userId: string;
-};
+import type { Variables } from "../types/api.js";
 
 const auth = new Hono<{ Variables: Variables }>();
 
 const registerSchema = z.object({
   email: z.email(),
-  password: z.string().min(6).max(128),
+  password: z
+    .string()
+    .min(6)
+    .max(128)
+    .refine((val) => /[A-Z]/.test(val))
+    .refine((val) => /[!@#$%^&*(),.?":{}|<>]/.test(val)),
 });
 
 auth.post("/register", async (c) => {
   const body = await c.req.json();
   const res = registerSchema.safeParse(body);
   if (!res.success) {
-    return c.json({ error: "Invalid request data" }, 400);
+    return c.json({ error: res.error }, 400);
   }
 
   const { email, password } = res.data;
@@ -30,9 +32,15 @@ auth.post("/register", async (c) => {
 
   try {
     await db.insert(users).values({ email, password: hashed });
-    return c.json({ message: "User registered successfully" }, 201);
+    return c.json(
+      { status: "success", message: "User registered successfully" },
+      201
+    );
   } catch (error) {
-    return c.json({ error: "User registration failed" }, 500);
+    return c.json(
+      { status: "error", message: "User registration failed" },
+      500
+    );
   }
 });
 
@@ -52,15 +60,15 @@ auth.post("/login", async (c) => {
   const [user] = await db.select().from(users).where(eq(users.email, email));
 
   if (!user) {
-    return c.json({ error: "User not found" }, 404);
+    return c.json({ status: "error", message: "User not found" }, 404);
   }
 
   if (!(await bcrypt.compare(password, user.password))) {
-    return c.json({ error: "Invalid password" }, 401);
+    return c.json({ status: "error", message: "Invalid password" }, 401);
   }
 
   const token = jwt.sign({ userId: user.id }, "secret", { expiresIn: "1h" });
-  return c.json({ token: token }, 200);
+  return c.json({ status: "success", token: token }, 200);
 });
 
 auth.get("/me", authMiddleware, async (c) => {
