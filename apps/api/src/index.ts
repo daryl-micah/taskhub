@@ -1,12 +1,11 @@
 import "dotenv/config";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { authRoutes } from "./routes/auth.js";
 
 const app = new Hono();
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
+app.route("/auth", authRoutes);
 
 serve(
   {
@@ -15,6 +14,5 @@ serve(
   },
   (info) => {
     console.log(`Server is running on http://localhost:${info.port}`);
-    console.log(process.env.DATABASE_URL); // Log the database URL for debugging
   }
 );

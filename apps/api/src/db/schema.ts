@@ -1,7 +1,10 @@
-import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
+import { v4 as uuidv4 } from "uuid";
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: uuid("id")
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   createdAt: timestamp("created_at", { withTimezone: false })
@@ -10,8 +13,10 @@ export const users = pgTable("users", {
 });
 
 export const tasks = pgTable("tasks", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id")
+  id: uuid("id")
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
