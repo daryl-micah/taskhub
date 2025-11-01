@@ -19,7 +19,7 @@ const taskSchema = z.object({
   dueAt: z.iso.datetime({ offset: false }),
 });
 
-// Create a new task (personal or group)
+// 1. Create a new task (personal or group)
 task.post("/", async (c) => {
   const userId = c.get("userId");
   const body = await c.req.json();
@@ -49,7 +49,7 @@ task.post("/", async (c) => {
   return c.json({ task: newTask }, 201);
 });
 
-// Get all tasks visible to the user (personal + group)
+// 2. Get all tasks visible to the user (personal + group)
 task.get("/", async (c) => {
   const userId = c.get("userId");
   const page = Number(c.req.query("page") ?? "1");
@@ -80,7 +80,7 @@ task.get("/", async (c) => {
   return c.json({ tasks: visibleTasks }, 200);
 });
 
-// Update a task (must be visible to user)
+// 3. Update a task (must be visible to user)
 task.put("/:id", async (c) => {
   const userId = c.get("userId");
   const taskId = c.req.param("id");
@@ -102,7 +102,7 @@ task.put("/:id", async (c) => {
   return c.json({ task: updated }, 200);
 });
 
-// Delete task
+// 4. Delete task
 task.delete("/:id", async (c) => {
   const userId = c.get("userId");
   const taskId = c.req.param("id");

@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const groupRoutes = new Hono<{ Variables: Variables }>();
 
-// Create Group
+// 1. Create Group
 groupRoutes.post("/", async (c) => {
   const userId = c.get("userId");
   const { name } = await c.req.json<{ name: string }>();
@@ -28,7 +28,7 @@ groupRoutes.post("/", async (c) => {
   return c.json({ groupId: newGroupId, name }, 201);
 });
 
-// Join an existing group
+// 2. Join an existing group
 groupRoutes.post("/:id/join", async (c) => {
   const userId = c.get("userId");
   const groupId = c.req.param("id");
@@ -54,7 +54,7 @@ groupRoutes.post("/:id/join", async (c) => {
   return c.json({ success: true });
 });
 
-// Get user groups
+// 3. Get user groups
 groupRoutes.get("/", async (c) => {
   const userId = c.get("userId");
 
@@ -71,7 +71,7 @@ groupRoutes.get("/", async (c) => {
   return c.json(userGroups, 200);
 });
 
-// Get group tasks
+// 4. Get group tasks
 groupRoutes.get("/:id/tasks", async (c) => {
   const userId = c.get("userId");
   const groupId = c.req.param("id");
