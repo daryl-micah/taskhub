@@ -18,6 +18,9 @@ const registerSchema = z.object({
     .max(128)
     .refine((val) => /[A-Z]/.test(val))
     .refine((val) => /[!@#$%^&*(),.?":{}|<>]/.test(val)),
+  firstName: z.string().min(1).max(50),
+  lastName: z.string().min(1).max(50),
+  avatar: z.url().optional(),
 });
 
 auth.post("/register", async (c) => {
@@ -27,11 +30,13 @@ auth.post("/register", async (c) => {
     return c.json({ error: res.error }, 400);
   }
 
-  const { email, password } = res.data;
+  const { email, password, firstName, lastName, avatar } = res.data;
   const hashed = await bcrypt.hash(password, 10);
 
   try {
-    await db.insert(users).values({ email, password: hashed });
+    await db
+      .insert(users)
+      .values({ email, password: hashed, firstName, lastName, avatar });
     return c.json(
       { status: "success", message: "User registered successfully" },
       201
