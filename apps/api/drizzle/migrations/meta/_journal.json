@@ -15,6 +15,13 @@
       "when": 1755427338886,
       "tag": "0001_sweet_galactus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762893974683,
+      "tag": "0002_serious_gravity",
+      "breakpoints": true
     }
   ]
 }

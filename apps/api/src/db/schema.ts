@@ -8,6 +8,9 @@ export const users = pgTable("users", {
     .primaryKey()
     .$defaultFn(() => uuidv4()),
   email: text("email").notNull().unique(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  avatar: text("avatar"),
   password: text("password").notNull(),
   createdAt: timestamp("created_at", { withTimezone: false })
     .defaultNow()
