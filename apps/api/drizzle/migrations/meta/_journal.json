@@ -8,6 +8,13 @@
       "when": 1761935250791,
       "tag": "0000_hesitant_spiral",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762893974683,
+      "tag": "0002_serious_gravity",
+      "breakpoints": true
     }
   ]
 }

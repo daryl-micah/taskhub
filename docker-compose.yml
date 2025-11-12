@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: taskhub_db
+    restart: always
+    environment:
+      POSTGRES_USER: taskhub
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: taskhub_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - thdata:/var/lib/postgresql/data
+
+volumes:
+  thdata:
