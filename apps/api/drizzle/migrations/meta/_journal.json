@@ -15,6 +15,13 @@
       "when": 1762893974683,
       "tag": "0002_serious_gravity",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762893974683,
+      "tag": "0002_serious_gravity",
+      "breakpoints": true
     }
   ]
 }
