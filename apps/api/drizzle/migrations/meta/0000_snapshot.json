@@ -1,5 +1,5 @@
 {
-  "id": "56b2c9a9-bae6-4b9b-91d7-29a700f868be",
+  "id": "8eb8a488-b9ac-4098-afd4-fcc6c03e0a0a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -56,13 +56,13 @@
           "name": "group_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "role": {
           "name": "role",
