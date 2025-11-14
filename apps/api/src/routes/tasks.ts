@@ -12,7 +12,7 @@ task.use("*", authMiddleware);
 // Zod schema
 const taskSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().default(""),
   ownerType: z.enum(["user", "group"]),
   ownerId: z.uuid(),
   status: z.enum(["open", "in_progress", "completed"]).default("open"),
@@ -43,7 +43,12 @@ task.post("/", async (c) => {
 
   const [newTask] = await db
     .insert(tasks)
-    .values({ ...res.data, dueAt: new Date(res.data.dueAt) })
+    .values({
+      ...res.data,
+      dueAt: new Date(res.data.dueAt),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
     .returning();
 
   return c.json({ task: newTask }, 201);
@@ -82,7 +87,6 @@ task.get("/", async (c) => {
 
 // 3. Update a task (must be visible to user)
 task.put("/:id", async (c) => {
-  const userId = c.get("userId");
   const taskId = c.req.param("id");
   const body = await c.req.json();
   const res = taskSchema.safeParse(body);
@@ -104,7 +108,6 @@ task.put("/:id", async (c) => {
 
 // 4. Delete task
 task.delete("/:id", async (c) => {
-  const userId = c.get("userId");
   const taskId = c.req.param("id");
 
   // Optional: verify ownership before delete
