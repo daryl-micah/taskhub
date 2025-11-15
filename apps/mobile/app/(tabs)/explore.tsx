@@ -21,7 +21,7 @@ export default function TabTwoScreen() {
           style={styles.headerImage}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView className='flex-row gap-2'>
         <ThemedText
           type="title"
           style={{
