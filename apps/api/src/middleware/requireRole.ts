@@ -9,7 +9,7 @@ export const requireRole = (
 ): MiddlewareHandler => {
   return async (c, next) => {
     const userId = c.get("userId");
-    const groupId = c.req.param(groupIdParam);
+    let groupId = c.req.param(groupIdParam) || c.get(groupIdParam);
 
     if (!groupId) {
       return c.json({ error: "Group ID is required" }, 400);
