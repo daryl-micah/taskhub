@@ -23,6 +23,7 @@ groupRoutes.post("/", async (c) => {
     userId,
     groupId: newGroupId,
     role: "owner",
+    createdAt: new Date(),
   });
 
   return c.json({ groupId: newGroupId, name }, 201);
@@ -49,6 +50,7 @@ groupRoutes.post("/:id/join", async (c) => {
     userId,
     groupId,
     role: "member",
+    createdAt: new Date(),
   });
 
   return c.json({ success: true });

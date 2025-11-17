@@ -43,6 +43,9 @@ export const memberships = pgTable("memberships", {
   createdAt: timestamp("created_at", { withTimezone: false })
     .defaultNow()
     .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: false })
+    .defaultNow()
+    .notNull(),
 });
 
 //tasks table
