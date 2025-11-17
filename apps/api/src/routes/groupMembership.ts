@@ -60,6 +60,7 @@ groupMembership.patch(
       .update(memberships)
       .set({
         role,
+        updatedAt: new Date(),
       })
       .where(
         and(eq(memberships.groupId, groupId), eq(memberships.userId, userId))
@@ -93,10 +94,7 @@ groupMembership.delete(
           and(eq(memberships.groupId, groupId), eq(memberships.role, "owner"))
         );
       if (ownerCount.length === 1) {
-        return c.json(
-          { success: false, error: "Cannot remove the last owner" },
-          400
-        );
+        return c.json({ error: "Cannot remove the last owner" }, 400);
       }
     }
     await db
@@ -105,7 +103,7 @@ groupMembership.delete(
         and(eq(memberships.groupId, groupId), eq(memberships.userId, userId))
       );
 
-    return c.json({ success: true, message: "User removed from group" }, 200);
+    return c.json({ message: "User removed from group" }, 200);
   }
 );
 
