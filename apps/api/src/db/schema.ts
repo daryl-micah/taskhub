@@ -56,7 +56,7 @@ export const tasks = pgTable("tasks", {
   ownerType: text("owner_type").notNull(),
   ownerId: uuid("owner_id").notNull(),
   title: text("title").notNull(),
-  description: text("description").default("").notNull(),
+  priority: text("priority").default("low").notNull(),
   status: text("status").notNull().default("open"),
   dueAt: timestamp("due_at", { withTimezone: false }),
   createdAt: timestamp("created_at", { withTimezone: false })

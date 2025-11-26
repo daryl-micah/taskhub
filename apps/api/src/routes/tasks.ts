@@ -12,7 +12,7 @@ task.use("*", authMiddleware);
 // Zod schema
 const taskSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().default(""),
+  priority: z.enum(["low", "medium", "high"]).default("low"),
   ownerType: z.enum(["user", "group"]),
   ownerId: z.uuid(),
   status: z.enum(["open", "in_progress", "completed"]).default("open"),
